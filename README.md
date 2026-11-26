@@ -21,3 +21,23 @@ This is a front-end educational demo, not a production service. There is no serv
 
 `original-files/` contains early standalone drafts and is not used by the integrated app.
 \nProfile details: Users can edit their first name, last name, family group name, phone number, date of birth, gender and address from Settings > Your Profile. These details are saved locally in the browser.\n
+## Project Information
+
+**Project Title:** FamPaw Care – Family & Pet Health Management System
+
+**Technologies Used:**
+- HTML
+- CSS
+- JavaScript
+
+## How to Access the Project
+
+The project starts from the `index.html` file.
+
+1. Download the repository as a ZIP file.
+2. Extract the ZIP file.
+3. Open the project folder.
+4. Double-click `index.html` to launch the Welcome page.
+5. Use the navigation menu to explore the system.
+
+**Note:** This is a browser-based academic demonstration project. No Python or Flask installation is required.
