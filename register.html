@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Create Account</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/register.css">
+</head>
+
+<body>
+<main class="card">
+
+  <!-- ============ LEFT: ILLUSTRATION ============ -->
+  <section class="art">
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+    <h2>Join your FamPaw family.</h2>
+    <p>One account for everyone you love, pets included.</p>
+    <!-- To use a different picture: replace src="..." with your file name, e.g. src="images/my-photo.png" -->
+    <img class="art-img" alt="A happy family with their two dogs" src="images/family.webp">
+  </section>
+
+  <!-- ============ RIGHT: REGISTRATION FORM ============ -->
+  <section class="form-side">
+
+    <div class="logo">
+        <img src="images/logo.svg" alt="" width="32" height="32">
+      </div>
+
+    <h1>Create an Account</h1>
+    <p class="sub">We’ll help you get started</p>
+
+    <form id="regForm" novalidate>
+      <div class="two">
+        <div class="field">
+          <label for="first">First Name</label>
+          <input type="text" id="first" placeholder="First Name" autocomplete="given-name" aria-describedby="firstErr">
+          <p class="err" id="firstErr"></p>
+        </div>
+        <div class="field">
+          <label for="last">Last Name</label>
+          <input type="text" id="last" placeholder="Last Name" autocomplete="family-name" aria-describedby="lastErr">
+          <p class="err" id="lastErr"></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Email" autocomplete="email" aria-describedby="emailErr">
+        <p class="err" id="emailErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" placeholder="Password" autocomplete="new-password" aria-describedby="pwHint pwErr">
+          <button type="button" class="eye" data-target="password" aria-label="Show password"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5C6.5 5 2.7 9 1 12c1.7 3 5.5 7 11 7s9.3-4 11-7c-1.7-3-5.5-7-11-7Zm0 11.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"/></svg></button>
+        </div>
+        <p class="hint" id="pwHint">At least 8 characters, with a letter and a number.</p>
+        <p class="err" id="pwErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="confirm">Confirm Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="confirm" placeholder="Confirm Password" autocomplete="new-password" aria-describedby="confErr">
+          <button type="button" class="eye" data-target="confirm" aria-label="Show password"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5C6.5 5 2.7 9 1 12c1.7 3 5.5 7 11 7s9.3-4 11-7c-1.7-3-5.5-7-11-7Zm0 11.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"/></svg></button>
+        </div>
+        <p class="err" id="confErr"></p>
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="agree" aria-describedby="agreeErr">
+        <span>I confirm that I have read and agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.</span>
+      </label>
+      <p class="err" id="agreeErr"></p>
+
+      <button type="submit" class="btn">Sign Up</button>
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="signin">Already have an account? <a href="login.html">Login</a></p>
+  </section>
+
+</main>
+
+<script src="js/store.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

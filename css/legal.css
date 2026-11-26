@@ -1,0 +1,15 @@
+/* FamPaw Care – TERMS and PRIVACY pages (colors/font/logo circle: style.css) */
+body { line-height: 1.6; padding: 24px 16px; }
+.wrap { max-width: 760px; margin: 0 auto; }
+.top { display: flex; align-items: center; gap: 12px; background: var(--yellow); border-radius: 18px 18px 0 0; padding: 14px 22px; font-weight: 700; font-size: 18px; }
+.logo { width: 46px; height: 46px; }
+.logo img { width: 30px; height: 30px; }
+.card { background: var(--white); border: 1px solid color-mix(in srgb, var(--plum) 15%, transparent); border-top: 0; padding: 26px 26px 10px; }
+h1 { font-size: 26px; margin-bottom: 4px; }
+.updated { font-size: 13px; opacity: .8; margin-bottom: 18px; }
+h2 { font-size: 17px; margin: 18px 0 4px; }
+p { font-size: 14.5px; }
+.back { display: inline-block; margin: 18px 0 16px; padding: 9px 22px; border-radius: 999px; border: 1.5px solid var(--plum); background: var(--plum); color: var(--yellow); font-weight: 600; font-size: 14px; text-decoration: none; }
+.back:hover { opacity: .88; }
+footer { background: var(--yellow); border-radius: 0 0 18px 18px; text-align: center; font-size: 12px; padding: 14px; }
+a:focus-visible { outline: 3px solid var(--plum); outline-offset: 2px; }

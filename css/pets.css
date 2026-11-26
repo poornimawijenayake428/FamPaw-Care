@@ -1,0 +1,5 @@
+/* FamPaw Care – PETS page: only the small extras.
+   Buttons, cards, pop-ups and form fields are reused from family-members.css. */
+
+.pic.pet { font-size: 36px; }                 /* bigger animal picture inside the circle */
+.member .tag.type { background: var(--sage); }/* pet type label (Dog, Cat...) */

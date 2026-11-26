@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Settings</title>
+
+<script src="js/store.js" data-guard></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/family-members.css">
+<link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item active" href="settings.html" aria-current="page"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name"></span>
+        <div class="avatar" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-head">
+        <div>
+          <h1>Settings</h1>
+          <p>Manage your account, your password and your family’s data.</p>
+        </div>
+      </section>
+
+      <div class="settings-grid">
+
+        <section class="panel" aria-labelledby="profTitle">
+          <h2 id="profTitle">👤 Your Profile</h2>
+          <form id="profileForm" novalidate>
+            <div class="field">
+              <label for="sFirst">First Name</label>
+              <input type="text" id="sFirst" autocomplete="given-name">
+              <p class="err" id="sFirstErr"></p>
+            </div>
+            <div class="field">
+              <label for="sLast">Last Name</label>
+              <input type="text" id="sLast" autocomplete="family-name">
+              <p class="err" id="sLastErr"></p>
+            </div>
+            <div class="field">
+              <label for="sFamily">Family Group Name</label>
+              <input type="text" id="sFamily" placeholder="e.g. Perera Family">
+              <p class="err" id="sFamilyErr"></p>
+            </div>
+            <div class="field">
+              <label for="sPhone">Phone Number (optional)</label>
+              <input type="tel" id="sPhone" placeholder="e.g. 077 123 4567" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="sDob">Date of Birth (optional)</label>
+              <input type="date" id="sDob" autocomplete="bday">
+            </div>
+            <div class="field">
+              <label for="sGender">Gender (optional)</label>
+              <select id="sGender">
+                <option value="">Prefer not to say</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sAddress">Address (optional)</label>
+              <textarea id="sAddress" rows="3" placeholder="Enter your address" autocomplete="street-address"></textarea>
+            </div>
+            <div class="field">
+              <label for="sEmail">Email Address</label>
+              <input type="email" id="sEmail" readonly>
+              <p class="hint">Your email is your login name and cannot be changed here.</p>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+          </form>
+        </section>
+
+        <section class="panel" aria-labelledby="pwTitle">
+          <h2 id="pwTitle">🔒 Change Password</h2>
+          <form id="pwForm" novalidate>
+            <div class="field">
+              <label for="pwOld">Current Password</label>
+              <input type="password" id="pwOld" autocomplete="current-password">
+              <p class="err" id="pwOldErr"></p>
+            </div>
+            <div class="field">
+              <label for="pwNew">New Password</label>
+              <input type="password" id="pwNew" autocomplete="new-password">
+              <p class="err" id="pwNewErr"></p>
+            </div>
+            <div class="field">
+              <label for="pwConf">Confirm New Password</label>
+              <input type="password" id="pwConf" autocomplete="new-password">
+              <p class="err" id="pwConfErr"></p>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+        </section>
+
+        <section class="panel" aria-labelledby="dataTitle">
+          <h2 id="dataTitle">🗂 Your Data</h2>
+          <ul class="list summary" id="dataSummary"></ul>
+          <div class="settings-actions">
+            <button type="button" class="btn" id="exportBtn">⬇️ Download my data</button>
+            <button type="button" class="btn" id="resetBtn">🔄 Restore sample data</button>
+            <button type="button" class="btn btn-danger" id="clearBtn">🗑 Delete all my data</button>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="accTitle">
+          <h2 id="accTitle">🚪 Account</h2>
+          <p class="settings-text">Signed in as <strong id="accEmail"></strong>.</p>
+          <div class="settings-actions">
+            <a class="btn" href="login.html" data-logout>Log out</a>
+            <button type="button" class="btn btn-danger" id="deleteAccBtn">Delete my account</button>
+          </div>
+          <p class="settings-text small"><a href="terms.html">Terms of Service</a> · <a href="privacy.html">Privacy Policy</a></p>
+        </section>
+
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ CONFIRMATION (used for every risky action on this page) ============ -->
+<dialog id="confirmDialog" aria-labelledby="cTitle">
+  <div class="dlg-body">
+    <h2 id="cTitle"></h2>
+    <p class="del-text" id="cText"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cCancel">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="cOk">Yes, continue</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>

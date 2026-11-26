@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="js/store.js" data-guard></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (the left menu) ============
+       "data-soon" = this page is not built yet. Remove that word from a link
+       when you create its page (example: family.html). -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item active" href="dashboard.html" aria-current="page"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <a class="user-profile-link" href="settings.html" aria-label="Open account settings"><span class="user-name" id="userName"></span><div class="avatar" id="avatar" aria-hidden="true"></div></a>
+      </div>
+    </header>
+
+    <main>
+      <!-- 2. WELCOME MESSAGE -->
+      <section class="welcome">
+        <h1 id="hello">Welcome back!</h1>
+        <p id="subtitle">Here is what is happening in your family today.</p>
+      </section>
+
+      <!-- 3. SUMMARY CARDS (numbers are filled by js/dashboard.js) -->
+      <section class="stats" aria-label="Summary">
+        <a class="stat c1" href="family-members.html"><div class="icon">👨‍👩‍👧</div><b id="statFamily">0</b><span>Total Family Members</span></a>
+        <a class="stat c2" href="pets.html"><div class="icon">🐶</div><b id="statPets">0</b><span>Total Pets</span></a>
+        <a class="stat c3" href="appointments.html"><div class="icon">📅</div><b id="statAppts">0</b><span>Upcoming Appointments</span></a>
+        <a class="stat c4" href="reminders.html"><div class="icon">🔔</div><b id="statRem">0</b><span>Pending Reminders</span></a>
+      </section>
+
+      <nav class="quick-actions" aria-label="Quick actions"><a href="family-members.html">＋ Add family member</a><a href="pets.html">＋ Add pet</a><a href="health-records.html">＋ Add health record</a><a href="appointments.html">＋ Add appointment</a></nav>
+      <div class="columns">
+        <div class="col">
+          <!-- 4. UPCOMING APPOINTMENTS -->
+          <section class="panel" aria-labelledby="apptTitle">
+            <div class="panel-head"><h2 id="apptTitle">Upcoming Appointments</h2><a href="appointments.html">See all</a></div>
+            <ul class="list" id="apptList"></ul>
+            <p class="empty" id="apptEmpty" hidden>No upcoming appointments.</p>
+          </section>
+
+          <!-- 5. RECENT HEALTH RECORDS -->
+          <section class="panel" aria-labelledby="recTitle">
+            <div class="panel-head"><h2 id="recTitle">Recent Health Records</h2><a href="health-records.html">See all</a></div>
+            <ul class="list" id="recList"></ul>
+            <p class="empty" id="recEmpty" hidden>No health records yet.</p>
+          </section>
+        </div>
+
+        <div class="col">
+          <!-- 6. UPCOMING REMINDERS -->
+          <section class="panel" aria-labelledby="remTitle">
+            <div class="panel-head"><h2 id="remTitle">Upcoming Reminders</h2><a href="reminders.html">See all</a></div>
+            <ul class="list" id="remList"></ul>
+            <p class="empty" id="remEmpty" hidden>No reminders. You are all caught up!</p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

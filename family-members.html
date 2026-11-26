@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Family Members</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="js/store.js" data-guard></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">          <!-- sidebar, top bar, footer (shared with the Dashboard) -->
+<link rel="stylesheet" href="css/family-members.css">     <!-- only for this page -->
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the Dashboard; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item active" href="family-members.html" aria-current="page"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name">Nimali Perera</span>
+        <div class="avatar" aria-hidden="true">N</div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <!-- 1, 2, 3. TITLE + DESCRIPTION + ADD BUTTON -->
+      <section class="page-head">
+        <div>
+          <h1>Family Members</h1>
+          <p>Keep a profile for everyone in your family. Add new members, update their details, or remove them.</p>
+          <p class="count" id="count"></p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add Family Member</button>
+      </section>
+
+      <!-- 4, 5. PROFILE CARDS (filled by js/family-members.js) -->
+      <section class="cards" id="cards" aria-label="Family members"></section>
+
+      <!-- Shown when there are no members -->
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">👨‍👩‍👧</div>
+        <h2>No family members yet</h2>
+        <p>Add your first family member to get started.</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add Family Member</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ ADD / EDIT FORM (a pop-up window) ============
+     The same form is used for both: "Add" shows empty boxes, "Edit" fills them. -->
+<dialog id="formDialog" aria-labelledby="formTitle">
+  <div class="dlg-body">
+    <h2 id="formTitle">Add Family Member</h2>
+    <form id="memberForm" novalidate>
+
+      <div class="field">
+        <label for="fName">Full Name</label>
+        <input type="text" id="fName" placeholder="e.g. Nimali Perera" autocomplete="off">
+        <p class="err" id="nameErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fRel">Relationship</label>
+        <select id="fRel">
+          <option value="">Choose one…</option>
+          <option>Mother</option><option>Father</option>
+          <option>Son</option><option>Daughter</option>
+          <option>Husband</option><option>Wife</option>
+          <option>Brother</option><option>Sister</option>
+          <option>Grandmother</option><option>Grandfather</option>
+          <option>Other</option>
+        </select>
+        <p class="err" id="relErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fDob">Date of Birth</label>
+        <input type="date" id="fDob">
+        <p class="err" id="dobErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fPhone">Contact Number <span class="optional">(optional)</span></label>
+        <input type="tel" id="fPhone" placeholder="e.g. 077 555 0101" autocomplete="off">
+        <p class="err" id="phoneErr"></p>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Add Member</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this member?</h2>
+    <p class="del-text">Are you sure you want to delete <strong id="delName"></strong>? Their health records, appointments, vaccinations and reminders will be deleted too. This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/family-members.js"></script>
+</body>
+</html>

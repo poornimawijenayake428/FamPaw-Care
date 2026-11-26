@@ -1,0 +1,20 @@
+/* FamPaw Care – APPOINTMENTS page: only the small extras.
+   Tabs, selection cards, filters and cards are reused from health-records.css;
+   summary cards, sidebar and footer from dashboard.css. */
+
+/* ---------- 6 summary cards ---------- */
+.stats.six { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 1100px) { .stats.six { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .stats.six { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- Status labels ---------- */
+.rec .tag.status-upcoming  { background: var(--plum); color: var(--yellow); }
+.rec .tag.status-completed { background: var(--white); }
+.rec .tag.status-cancelled { background: var(--blush); border-color: var(--error); color: var(--error); }
+.rec.is-cancelled { background: var(--blush); }
+.rec.is-cancelled .rec-name { opacity: .75; }
+
+/* ---------- Form: date + time side by side ---------- */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field select:disabled { background: var(--blush); opacity: .8; cursor: not-allowed; }
+@media (max-width: 420px) { .row2 { grid-template-columns: 1fr; gap: 0; } }

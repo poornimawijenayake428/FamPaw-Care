@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Appointments</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="js/store.js" data-guard></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">          <!-- sidebar, top bar, footer -->
+<link rel="stylesheet" href="css/family-members.css">     <!-- buttons, pop-ups, form fields (reused) -->
+<link rel="stylesheet" href="css/health-records.css">     <!-- tabs, selection cards, filters, cards (reused) -->
+<link rel="stylesheet" href="css/appointments.css">        <!-- only the small extras for this page -->
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item active" href="appointments.html" aria-current="page"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name">Nimali Perera</span>
+        <div class="avatar" aria-hidden="true">N</div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <!-- TITLE + DESCRIPTION + ADD BUTTON -->
+      <section class="page-head">
+        <div>
+          <h1>Appointments</h1>
+          <p>Keep track of doctor and veterinarian visits for your family and pets. Choose a tab, then choose who you want to see.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add New Appointment</button>
+      </section>
+
+      <!-- SUMMARY CARDS (all appointments, family + pets together) -->
+      <section class="stats six" aria-label="Appointment summary">
+        <div class="stat c1"><div class="icon">📅</div><b id="sTotal">0</b><span>Total Appointments</span></div>
+        <div class="stat c2"><div class="icon">⏳</div><b id="sUpcoming">0</b><span>Upcoming</span></div>
+        <div class="stat c3"><div class="icon">✅</div><b id="sCompleted">0</b><span>Completed</span></div>
+        <div class="stat c4"><div class="icon">✖️</div><b id="sCancelled">0</b><span>Cancelled</span></div>
+        <div class="stat c1"><div class="icon">👨‍👩‍👧</div><b id="sFamily">0</b><span>Family Appointments</span></div>
+        <div class="stat c2"><div class="icon">🐾</div><b id="sPet">0</b><span>Pet Appointments</span></div>
+      </section>
+
+      <!-- STEP 1: TWO TABS -->
+      <div class="tabs" role="tablist" aria-label="Appointment categories">
+        <button type="button" class="tab" role="tab" id="tabFamily" data-section="family" aria-selected="true">👨‍👩‍👧 Family Appointments <span class="num" id="numFamily"></span></button>
+        <button type="button" class="tab" role="tab" id="tabPet" data-section="pet" aria-selected="false">🐾 Pet Appointments <span class="num" id="numPet"></span></button>
+      </div>
+
+      <!-- STEP 2: CHOOSE WHO (cards are made by js/appointments.js) -->
+      <section class="choices" id="choices" aria-label="Choose who to show"></section>
+
+      <!-- STEP 3: THE APPOINTMENTS -->
+      <h2 class="view-title" id="viewTitle"></h2>
+
+      <section class="panel filters" aria-label="Search and filter appointments">
+        <input type="search" id="searchBox" placeholder="Search title, name, doctor or location" aria-label="Search appointments">
+        <select id="typeFilter" aria-label="Filter by appointment type"></select>   <!-- filled by js/appointments.js -->
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option>Upcoming</option><option>Completed</option><option>Cancelled</option>
+        </select>
+        <label class="date-field">From <input type="date" id="dateFrom"></label>
+        <label class="date-field">To <input type="date" id="dateTo"></label>
+        <button type="button" class="btn" id="clearBtn">Clear filters</button>
+      </section>
+      <p class="err range-err" id="rangeErr"></p>
+      <p class="result-count" id="resultCount"></p>
+
+      <section class="records" id="records" aria-label="Appointments"></section>
+
+      <div class="panel empty-box" id="noMatch" hidden>
+        <div class="big">🔍</div>
+        <h2>No appointments found</h2>
+        <p>Try a different search, status, or date, or clear the filters.</p>
+        <button type="button" class="btn" id="noMatchClear">Clear filters</button>
+      </div>
+
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">📅</div>
+        <h2 id="emptyTitle">No appointments yet</h2>
+        <p>Add the first appointment to get started.</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add New Appointment</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ ADD / EDIT FORM (one form for family AND pet appointments) ============ -->
+<dialog id="formDialog" aria-labelledby="formTitle">
+  <div class="dlg-body">
+    <h2 id="formTitle">Add New Appointment</h2>
+    <form id="apptForm" novalidate>
+
+      <div class="field">
+        <label for="aCategory">Appointment Category</label>
+        <select id="aCategory">
+          <option value="family">Family Appointment</option>
+          <option value="pet">Pet Appointment</option>
+        </select>
+        <p class="hint" id="catHint" hidden>The category cannot be changed when editing.</p>
+      </div>
+
+      <div class="field">
+        <label for="aOwner" id="aOwnerLabel">Family Member</label>
+        <select id="aOwner"></select>   <!-- filled by js/appointments.js -->
+        <p class="err" id="aOwnerErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="aTitle">Appointment Title</label>
+        <input type="text" id="aTitle" placeholder="e.g. Dental cleaning" maxlength="60" autocomplete="off">
+        <p class="err" id="aTitleErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="aType">Appointment Type</label>
+        <select id="aType"></select>
+        <p class="err" id="aTypeErr"></p>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="aDate">Date</label>
+          <input type="date" id="aDate">
+          <p class="err" id="aDateErr"></p>
+        </div>
+        <div class="field">
+          <label for="aTime">Time</label>
+          <input type="time" id="aTime">
+          <p class="err" id="aTimeErr"></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="aProvider" id="aProviderLabel">Doctor Name</label>
+        <input type="text" id="aProvider" maxlength="60" autocomplete="off">
+        <p class="err" id="aProviderErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="aPlace" id="aPlaceLabel">Location (Hospital / Clinic)</label>
+        <input type="text" id="aPlace" maxlength="80" autocomplete="off">
+        <p class="err" id="aPlaceErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="aNotes">Description / Notes <span class="optional">(optional)</span></label>
+        <textarea id="aNotes" rows="3" maxlength="500" placeholder="e.g. Bring the previous test results."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="aStatus">Status</label>
+        <select id="aStatus">
+          <option>Upcoming</option><option>Completed</option><option>Cancelled</option>
+        </select>
+        <p class="hint">You choose the status yourself. FamPaw Care never changes it automatically.</p>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Add Appointment</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this appointment?</h2>
+    <p class="del-text">Are you sure you want to delete the appointment <strong id="delName"></strong>? This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/appointments.js"></script>
+</body>
+</html>

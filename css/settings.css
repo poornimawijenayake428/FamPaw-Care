@@ -1,0 +1,14 @@
+/* FamPaw Care – SETTINGS page: only the small extras.
+   Panels, buttons, form fields and pop-ups come from dashboard.css and family-members.css. */
+
+.settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 14px; margin-top: 22px; align-items: start; }
+.settings-grid .panel h2 { margin-bottom: 14px; }
+.settings-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.settings-text { font-size: 14px; }
+.settings-text.small { font-size: 12.5px; margin-top: 16px; }
+.settings-text a { text-decoration: underline; }
+.list.summary li { padding: 8px 0; font-size: 14px; }
+.list.summary li span:last-child { margin-left: auto; font-weight: 700; }
+a.btn { text-decoration: none; }
+.form-ok { color: var(--plum); font-size: 13px; font-weight: 700; margin-top: 10px; }
+.hint { font-size: 12px; margin-top: 4px; opacity: .8; }

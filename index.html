@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Welcome</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/welcome.css">
+</head>
+
+<body>
+<div class="page">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="brand">
+      <!-- LOGO: paw + heart picture (images/logo.svg) on a plum circle. Circle color: --plum in css/style.css -->
+      <div class="logo">
+        <img src="images/logo.svg" alt="" width="30" height="30">
+      </div>
+      <span>FamPaw Care</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============ HERO IMAGE ============ -->
+    <!-- To use a different picture: replace the src="..." below with your file name,
+         e.g. src="images/family.webp" (keep that file in the same folder as this page). -->
+    <div class="hero">
+      <img class="hero-img" alt="A happy family with their two dogs"
+           src="images/family.webp">
+    </div>
+
+    <!-- ============ WELCOME TEXT ============ -->
+    <section class="intro" id="about">
+      <h1>Welcome to FamPaw Care</h1>
+      <h2>One Family, One Place, Better Care.</h2>
+      <p>Manage your family’s and pets’ health information easily in one place. Keep track of health records, appointments and important reminders.</p>
+      <div class="buttons">
+        <a href="login.html" class="btn btn-primary">Login</a>
+        <a href="register.html" class="btn btn-outline">Create Account</a>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ============ FEATURE CARDS ============
+         To add/remove a card: copy or delete one <div class="card ..."> block.
+         Card colors: c1 = yellow, c2 = sage, c3 = blush -->
+    <h2 class="features-title" id="features">What You Can Do With FamPaw Care</h2>
+    <section class="grid">
+      <div class="card c1">
+        <div class="icon">👨‍👩‍👧</div>
+        <h3>Family Health</h3>
+        <p>Manage family health details.</p>
+      </div>
+      <div class="card c2">
+        <div class="icon">🐶</div>
+        <h3>Pet Care</h3>
+        <p>Manage your pets’ profiles.</p>
+      </div>
+      <div class="card c3">
+        <div class="icon">📅</div>
+        <h3>Appointments</h3>
+        <p>Keep track of appointments.</p>
+      </div>
+      <div class="card c2">
+        <div class="icon">📋</div>
+        <h3>Health Records</h3>
+        <p>Keep health history organized.</p>
+      </div>
+      <div class="card c1">
+        <div class="icon">🔔</div>
+        <h3>Reminders</h3>
+        <p>Remember important health tasks.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>© 2026 FamPaw Care. All rights reserved. <span class="footer-links"><a href="about.html">About</a> · <a href="help.html">Help</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></footer>
+
+</div>
+</body>
+</html>

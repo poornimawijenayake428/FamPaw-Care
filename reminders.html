@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Reminders</title>
+
+<script src="js/store.js" data-guard></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/family-members.css">
+<link rel="stylesheet" href="css/health-records.css">
+<link rel="stylesheet" href="css/appointments.css">
+<link rel="stylesheet" href="css/reminders.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item active" href="reminders.html" aria-current="page"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name"></span>
+        <div class="avatar" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <section class="page-head">
+        <div>
+          <h1>Reminders</h1>
+          <p>Never forget a medicine, a booking or a vaccine. Tick a reminder when it is done.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add Reminder</button>
+      </section>
+
+      <section class="stats" aria-label="Reminder summary">
+        <div class="stat c1"><div class="icon">🔔</div><b id="sPending">0</b><span>Pending Reminders</span></div>
+        <div class="stat c2"><div class="icon">📌</div><b id="sToday">0</b><span>Due Today</span></div>
+        <div class="stat c3"><div class="icon">⚠️</div><b id="sOver">0</b><span>Overdue</span></div>
+        <div class="stat c4"><div class="icon">✅</div><b id="sDone">0</b><span>Completed</span></div>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Reminder status">
+        <button type="button" class="tab" role="tab" id="tabPending" data-view="pending" aria-selected="true">⏳ Pending <span class="num" id="numPending"></span></button>
+        <button type="button" class="tab" role="tab" id="tabDone" data-view="done" aria-selected="false">✅ Completed <span class="num" id="numDone"></span></button>
+        <button type="button" class="tab" role="tab" id="tabAll" data-view="all" aria-selected="false">📋 All <span class="num" id="numAll"></span></button>
+      </div>
+
+      <section class="panel filters" aria-label="Search and filter reminders">
+        <input type="search" id="searchBox" placeholder="Search reminders or names" aria-label="Search reminders">
+        <select id="whoFilter" aria-label="Filter by person or pet"></select>
+        <button type="button" class="btn" id="clearBtn">Clear filters</button>
+      </section>
+      <p class="result-count" id="resultCount"></p>
+
+      <section class="panel" id="listPanel" aria-label="Reminders">
+        <ul class="list" id="remList"></ul>
+      </section>
+
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">🔔</div>
+        <h2 id="emptyTitle">No reminders</h2>
+        <p id="emptyText">You are all caught up!</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add Reminder</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ ADD / EDIT FORM ============ -->
+<dialog id="formDialog" aria-labelledby="formTitle">
+  <div class="dlg-body">
+    <h2 id="formTitle">Add Reminder</h2>
+    <form id="remForm" novalidate>
+
+      <div class="field">
+        <label for="rCategory">Reminder is for</label>
+        <select id="rCategory">
+          <option value="family">A family member</option>
+          <option value="pet">A pet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rOwner" id="rOwnerLabel">Family Member</label>
+        <select id="rOwner"></select>
+        <p class="err" id="rOwnerErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="rTitle">Reminder</label>
+        <input type="text" id="rTitle" placeholder="e.g. Give Bruno his tick medicine" maxlength="80" autocomplete="off">
+        <p class="err" id="rTitleErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="rDue">Due Date</label>
+        <input type="date" id="rDue">
+        <p class="err" id="rDueErr"></p>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Add Reminder</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this reminder?</h2>
+    <p class="del-text">Are you sure you want to delete <strong id="delName"></strong>? This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/reminders.js"></script>
+</body>
+</html>

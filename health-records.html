@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Health Records</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="js/store.js" data-guard></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">          <!-- sidebar, top bar, footer -->
+<link rel="stylesheet" href="css/family-members.css">     <!-- buttons, pop-ups, form fields (reused) -->
+<link rel="stylesheet" href="css/health-records.css">     <!-- only for this page -->
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item active" href="health-records.html" aria-current="page"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name">Nimali Perera</span>
+        <div class="avatar" aria-hidden="true">N</div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <!-- TITLE + DESCRIPTION + ADD BUTTON (the button text changes with the tab) -->
+      <section class="page-head">
+        <div>
+          <h1>Health Records</h1>
+          <p>Keep the health history of your family and pets in one place. Choose a tab, then choose who you want to see.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add Family Record</button>
+      </section>
+
+      <p class="notice">ℹ️ FamPaw Care only stores health information. It does not give diagnoses or replace a doctor or veterinarian. Please ask a professional about any medical decision.</p>
+
+      <!-- STEP 1: TWO TABS -->
+      <div class="tabs" role="tablist" aria-label="Health record sections">
+        <button type="button" class="tab" role="tab" id="tabFamily" data-section="family" aria-selected="true">👨‍👩‍👧 Family Health <span class="num" id="numFamily"></span></button>
+        <button type="button" class="tab" role="tab" id="tabPet" data-section="pet" aria-selected="false">🐾 Pet Health <span class="num" id="numPet"></span></button>
+      </div>
+
+      <!-- STEP 2: CHOOSE WHO (cards are made by js/health-records.js) -->
+      <section class="choices" id="choices" aria-label="Choose who to show"></section>
+
+      <!-- STEP 3: THE RECORDS -->
+      <h2 class="view-title" id="viewTitle"></h2>
+
+      <section class="panel filters" aria-label="Search and filter records">
+        <input type="search" id="searchBox" placeholder="Search by name or title" aria-label="Search by name or title">
+        <select id="typeFilter" aria-label="Filter by record type"></select>   <!-- filled by js/health-records.js -->
+        <label class="date-field">From <input type="date" id="dateFrom"></label>
+        <label class="date-field">To <input type="date" id="dateTo"></label>
+        <button type="button" class="btn" id="clearBtn">Clear filters</button>
+      </section>
+      <p class="err range-err" id="rangeErr"></p>
+      <p class="result-count" id="resultCount"></p>
+
+      <section class="records" id="records" aria-label="Health records"></section>
+
+      <!-- Shown when the search/filters find nothing -->
+      <div class="panel empty-box" id="noMatch" hidden>
+        <div class="big">🔍</div>
+        <h2>No records found</h2>
+        <p>Try a different name, title, or date, or clear the filters.</p>
+        <button type="button" class="btn" id="noMatchClear">Clear filters</button>
+      </div>
+
+      <!-- Shown when the chosen person or pet has no records at all -->
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">📋</div>
+        <h2 id="emptyTitle">No health records yet</h2>
+        <p>Add the first record to get started.</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add Health Record</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ FAMILY HEALTH FORM (add + edit) ============ -->
+<dialog id="familyDialog" aria-labelledby="familyFormTitle">
+  <div class="dlg-body">
+    <h2 id="familyFormTitle">Add Family Health Record</h2>
+    <form id="familyForm" novalidate>
+
+      <div class="field">
+        <label for="fOwner">Family Member</label>
+        <select id="fOwner"></select>   <!-- the 4 family members are added by js/health-records.js -->
+        <p class="err" id="fOwnerErr"></p>
+      </div>
+      <div class="field">
+        <label for="fTitle">Record Title</label>
+        <input type="text" id="fTitle" placeholder="e.g. Yearly check-up" maxlength="60" autocomplete="off">
+        <p class="err" id="fTitleErr"></p>
+      </div>
+      <div class="field">
+        <label for="fType">Record Type</label>
+        <select id="fType"></select>
+        <p class="err" id="fTypeErr"></p>
+      </div>
+      <div class="field">
+        <label for="fDate">Date</label>
+        <input type="date" id="fDate">
+        <p class="err" id="fDateErr"></p>
+      </div>
+      <div class="field">
+        <label for="fDesc">Description</label>
+        <textarea id="fDesc" rows="3" maxlength="500" placeholder="What happened? e.g. Routine visit to the clinic."></textarea>
+        <p class="err" id="fDescErr"></p>
+      </div>
+      <div class="field">
+        <label for="fNotes">Diagnosis / Health Notes</label>
+        <textarea id="fNotes" rows="3" maxlength="500" placeholder="Write what the doctor told you."></textarea>
+        <p class="hint">FamPaw Care does not give diagnoses. Only write what a doctor told you.</p>
+        <p class="err" id="fNotesErr"></p>
+      </div>
+      <div class="field">
+        <label for="fTreat">Medication / Treatment <span class="optional">(optional)</span></label>
+        <textarea id="fTreat" rows="2" maxlength="500" placeholder="e.g. Vitamin D tablet once a day, as told by the doctor."></textarea>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="familyCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="familySaveBtn">Add Record</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ PET HEALTH FORM (add + edit) ============ -->
+<dialog id="petDialog" aria-labelledby="petFormTitle">
+  <div class="dlg-body">
+    <h2 id="petFormTitle">Add Pet Health Record</h2>
+    <form id="petForm" novalidate>
+
+      <div class="field">
+        <label for="pOwner">Pet</label>
+        <select id="pOwner"></select>   <!-- Bruno and Luna are added by js/health-records.js -->
+        <p class="err" id="pOwnerErr"></p>
+      </div>
+      <div class="field">
+        <label for="pTitle">Record Title</label>
+        <input type="text" id="pTitle" placeholder="e.g. Annual vet visit" maxlength="60" autocomplete="off">
+        <p class="err" id="pTitleErr"></p>
+      </div>
+      <div class="field">
+        <label for="pType">Record Type</label>
+        <select id="pType"></select>
+        <p class="err" id="pTypeErr"></p>
+      </div>
+      <div class="field">
+        <label for="pDate">Date</label>
+        <input type="date" id="pDate">
+        <p class="err" id="pDateErr"></p>
+      </div>
+      <div class="field">
+        <label for="pDesc">Description</label>
+        <textarea id="pDesc" rows="3" maxlength="500" placeholder="What happened? e.g. Routine visit to the vet."></textarea>
+        <p class="err" id="pDescErr"></p>
+      </div>
+      <div class="field">
+        <label for="pNotes">Veterinary Notes</label>
+        <textarea id="pNotes" rows="3" maxlength="500" placeholder="Write what the vet told you."></textarea>
+        <p class="hint">FamPaw Care does not give diagnoses. Only write what a vet told you.</p>
+        <p class="err" id="pNotesErr"></p>
+      </div>
+      <div class="field">
+        <label for="pTreat">Medication / Treatment <span class="optional">(optional)</span></label>
+        <textarea id="pTreat" rows="2" maxlength="500" placeholder="e.g. Anti-flea treatment, as advised by the vet."></textarea>
+      </div>
+      <!-- Only shown when the Record Type is "Vaccination" -->
+      <div class="field" id="pVaccWrap" hidden>
+        <label for="pVacc">Vaccination Details</label>
+        <textarea id="pVacc" rows="2" maxlength="300" placeholder="e.g. Rabies vaccine. Next dose due November 2027."></textarea>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="petCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="petSaveBtn">Add Record</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this record?</h2>
+    <p class="del-text">Are you sure you want to delete the record <strong id="delName"></strong>? This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/health-records.js"></script>
+</body>
+</html>

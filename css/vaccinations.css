@@ -1,0 +1,14 @@
+/* FamPaw Care – VACCINATIONS page: only the small extras.
+   Tabs, selection cards, filters, cards and summary cards are reused from
+   health-records.css, appointments.css and dashboard.css. */
+
+/* ---------- Status labels (worked out from the dates) ---------- */
+.rec .tag.status-up-to-date { background: var(--sage); }
+.rec .tag.status-due-soon   { background: var(--yellow); }
+.rec .tag.status-overdue    { background: var(--blush); border-color: var(--error); color: var(--error); }
+.rec .tag.status-completed  { background: var(--white); }
+.rec.is-overdue { border-color: var(--error); }
+
+/* ---------- Buttons on the card: Edit / Delete, then "Remind me" on its own row ---------- */
+.member-actions { flex-wrap: wrap; }
+.member-actions .btn-remind { flex: 1 1 100%; }

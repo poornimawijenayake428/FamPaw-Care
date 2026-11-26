@@ -1,0 +1,15 @@
+/* FamPaw Care – REMINDERS page: only the small extras.
+   The list look, tick boxes and tags come from dashboard.css;
+   tabs and filters from health-records.css. */
+
+.rem-list li.rem { align-items: center; }
+.rem-list .rem-actions { display: flex; gap: 6px; flex: none; }
+.rem-list .rem-actions .btn { padding: 5px 12px; font-size: 13px; }
+.rem-list .due-over small { color: var(--error); font-weight: 700; opacity: 1; }
+.rem-list .due-today small { font-weight: 700; opacity: 1; }
+.rem-list li.rem.done .info small { opacity: .6; }
+
+@media (max-width: 560px) {
+  .rem-list li.rem { flex-wrap: wrap; }
+  .rem-list .rem-actions { width: 100%; padding-left: 29px; }
+}

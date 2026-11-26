@@ -1,0 +1,52 @@
+/* =========================================================
+   FamPaw Care – SHARED STYLES (used by every page)
+   Change a color or the font here and ALL pages update.
+   ========================================================= */
+
+/* 1. COLORS */
+:root {
+  --yellow: #FFF1B8;   /* Soft Yellow – header, footer, highlights   */
+  --cream:  #FFF8E5;   /* Pale Cream  – picture areas                */
+  --plum:   #58364F;   /* Dark Plum   – text, buttons, borders       */
+  --sage:   #E8EDDF;   /* Soft Sage   – accent cards                 */
+  --blush:  #F8F0F3;   /* Light Blush – page background, soft cards  */
+  --white:  #FFFFFF;   /* White       – cards and inputs             */
+  --border: #E5D5DC;   /* input borders                              */
+  --error:  #9B2C4A;   /* error text                                 */
+
+  /* 2. FONT (Quicksand comes from Google Fonts, linked in each page) */
+  --font: "Quicksand", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 3. RESET + BASE */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  color: var(--plum);
+  background: var(--blush);
+}
+
+/* 4. LOGO: paw + heart picture (images/logo.svg) inside a plum circle.
+      Each page sets its own size. */
+.logo {
+  border-radius: 50%;
+  background: var(--plum);
+  display: grid; place-items: center;
+}
+.logo img { display: block; }
+
+/* 5. PASSWORD BOX + "eye" button (Login and Register) */
+.pw-wrap { position: relative; }
+.eye {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; cursor: pointer; padding: 6px; color: var(--plum);
+  display: grid; place-items: center;
+}
+.eye svg { width: 20px; height: 20px; }
+
+/* 6. MESSAGE UNDER A FORM BUTTON */
+.msg { text-align: center; font-size: 13px; margin-top: 12px; min-height: 18px; font-weight: 600; }
+
+/* Error version of the message (used by Login and Register) */
+.msg.error { color: var(--error); }

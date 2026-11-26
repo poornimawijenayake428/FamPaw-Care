@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – My Pets</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="js/store.js" data-guard></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">          <!-- sidebar, top bar, footer -->
+<link rel="stylesheet" href="css/family-members.css">     <!-- buttons, cards, pop-ups, form fields (reused) -->
+<link rel="stylesheet" href="css/pets.css">               <!-- only the small extras for this page -->
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item active" href="pets.html" aria-current="page"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item" href="vaccinations.html"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name">Nimali Perera</span>
+        <div class="avatar" aria-hidden="true">N</div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <!-- 1, 2, 3. TITLE + DESCRIPTION + ADD BUTTON -->
+      <section class="page-head">
+        <div>
+          <h1>My Pets</h1>
+          <p>Keep a profile for every pet in your family. Add a new pet, update their details, or remove them.</p>
+          <p class="count" id="count"></p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add New Pet</button>
+      </section>
+
+      <!-- 4, 5. PET CARDS (filled by js/pets.js) -->
+      <section class="cards" id="cards" aria-label="Pets"></section>
+
+      <!-- Shown when there are no pets -->
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">🐾</div>
+        <h2>No pets yet</h2>
+        <p>Add your first pet to get started.</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add New Pet</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ ADD / EDIT FORM (a pop-up window) ============
+     The same form is used for both: "Add" shows empty boxes, "Edit" fills them. -->
+<dialog id="formDialog" aria-labelledby="formTitle">
+  <div class="dlg-body">
+    <h2 id="formTitle">Add New Pet</h2>
+    <form id="petForm" novalidate>
+
+      <div class="field">
+        <label for="fName">Pet Name</label>
+        <input type="text" id="fName" placeholder="e.g. Bruno" maxlength="40" autocomplete="off">
+        <p class="err" id="nameErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fType">Pet Type</label>
+        <select id="fType">
+          <option value="">Choose one…</option>
+          <option>Dog</option><option>Cat</option><option>Rabbit</option>
+          <option>Bird</option><option>Fish</option><option>Hamster</option>
+          <option>Other</option>
+        </select>
+        <p class="err" id="typeErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fBreed">Breed <span class="optional">(optional)</span></label>
+        <input type="text" id="fBreed" placeholder="e.g. Labrador Retriever" maxlength="40" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="fDob">Date of Birth <span class="optional">(optional)</span></label>
+        <input type="date" id="fDob">
+        <p class="err" id="dobErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fGender">Gender</label>
+        <select id="fGender">
+          <option value="">Choose one…</option>
+          <option>Male</option><option>Female</option><option>Unknown</option>
+        </select>
+        <p class="err" id="genderErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="fOwner">Owner (Family Member)</label>
+        <select id="fOwner"></select>   <!-- the names are added by js/pets.js -->
+        <p class="err" id="ownerErr"></p>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Add Pet</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this pet?</h2>
+    <p class="del-text">Are you sure you want to delete <strong id="delName"></strong>? Their health records, appointments, vaccinations and reminders will be deleted too. This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/pets.js"></script>
+</body>
+</html>

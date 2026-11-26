@@ -1,0 +1,82 @@
+/* FamPaw Care – FAMILY MEMBERS page styles
+   (sidebar, top bar, footer, toast come from dashboard.css; colors/font from style.css) */
+
+/* ---------- Buttons (same pill style as your other pages) ---------- */
+.btn {
+  font: inherit; font-size: 14px; font-weight: 600;
+  padding: 9px 22px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--plum); background: transparent; color: var(--plum);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn:hover { opacity: .88; }
+.btn-primary { background: var(--plum); color: var(--yellow); }
+.btn-danger { border-color: var(--error); color: var(--error); }
+.btn-danger-solid { background: var(--error); border-color: var(--error); color: var(--white); }
+
+/* ---------- Page title area ---------- */
+.page-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.page-head h1 { font-size: 28px; }
+.page-head p { font-size: 14px; margin-top: 2px; max-width: 520px; }
+.page-head .count { font-weight: 700; margin-top: 8px; }
+
+/* ---------- Profile cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-top: 22px; }
+.member {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 18px 16px; display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.pic {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 1.5px solid var(--plum);
+  display: grid; place-items: center; font-size: 28px; font-weight: 700;
+}
+.pic.p0 { background: var(--yellow); }
+.pic.p1 { background: var(--sage); }
+.pic.p2 { background: var(--blush); }
+.pic.p3 { background: var(--cream); }
+.member h2 { font-size: 18px; margin-top: 12px; }
+.member .tag { margin-top: 6px; background: var(--blush); }
+
+.details { width: 100%; margin-top: 14px; text-align: left; }
+.details div { display: flex; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.details span.ico { flex: none; }
+.details small { display: block; font-size: 12px; opacity: .8; }
+.details .none { opacity: .6; }
+
+.member-actions { display: flex; gap: 8px; width: 100%; margin-top: auto; padding-top: 14px; }
+.member-actions .btn { flex: 1; padding: 8px 10px; }
+
+/* ---------- Empty message ---------- */
+.empty-box { text-align: center; padding: 36px 18px; margin-top: 22px; }
+.empty-box .big { font-size: 40px; }
+.empty-box p { font-size: 14px; margin: 4px 0 16px; }
+
+/* ---------- Pop-up windows ---------- */
+dialog {
+  border: 1px solid var(--line); border-radius: 20px; padding: 0;
+  width: min(480px, 92vw); max-height: 92vh; overflow-y: auto;
+  margin: auto; background: var(--white); color: var(--plum);
+}
+dialog::backdrop { background: color-mix(in srgb, var(--plum) 40%, transparent); }
+.dlg-body { padding: 24px 24px 22px; }
+.dlg-body h2 { font-size: 21px; margin-bottom: 14px; }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.del-text { font-size: 14px; }
+
+/* ---------- Form fields (same look as your Login page) ---------- */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.field .optional { font-weight: 500; opacity: .75; }
+.field input, .field select {
+  width: 100%; font: inherit; font-size: 14px; color: var(--plum);
+  padding: 11px 14px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--white);
+}
+.field input:focus, .field select:focus { outline: 3px solid var(--yellow); border-color: var(--plum); }
+.field [aria-invalid="true"] { border-color: var(--error); }
+.err { color: var(--error); font-size: 12.5px; font-weight: 600; margin-top: 4px; }
+.err:empty { display: none; }
+
+@media (max-width: 520px) {
+  .page-head .btn { width: 100%; }
+  .dlg-actions .btn { flex: 1; }
+}

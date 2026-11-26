@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamPaw Care – Vaccinations</title>
+
+<script src="js/store.js" data-guard></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/family-members.css">
+<link rel="stylesheet" href="css/health-records.css">
+<link rel="stylesheet" href="css/appointments.css">
+<link rel="stylesheet" href="css/vaccinations.css">
+
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR (same as the other pages; only the "active" link is different) ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main menu">
+    <div class="brand">
+      <div class="logo"><img src="images/logo.svg" alt="" width="28" height="28"></div>
+      <span>FamPaw Care</span>
+    </div>
+
+    <nav>
+      <a class="item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="item" href="family-members.html"><span class="ico">👨‍👩‍👧</span> Family Members</a>
+      <a class="item" href="pets.html"><span class="ico">🐶</span> Pets</a>
+      <a class="item" href="health-records.html"><span class="ico">📋</span> Health Records</a>
+      <a class="item" href="appointments.html"><span class="ico">📅</span> Appointments</a>
+      <a class="item active" href="vaccinations.html" aria-current="page"><span class="ico">💉</span> Vaccinations</a>
+      <a class="item" href="reminders.html"><span class="ico">🔔</span> Reminders</a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="item" href="settings.html"><span class="ico">⚙️</span> Settings</a>
+      <a class="item" href="login.html" data-logout><span class="ico">🚪</span> Log out</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="content">
+
+    <!-- ============ TOP BAR ============ -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="user">
+        <span class="user-name"></span>
+        <div class="avatar" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="module-shortcuts" aria-label="Related sections"><a href="family-members.html">Family</a><a href="pets.html">Pets</a><a href="health-records.html">Health Records</a><a href="appointments.html">Appointments</a><a href="vaccinations.html">Vaccinations</a><a href="reminders.html">Reminders</a></nav>
+      <section class="page-head">
+        <div>
+          <h1>Vaccinations</h1>
+          <p>Keep track of vaccines for your family and pets, and see when the next dose is due. Choose a tab, then choose who you want to see.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addBtn">＋ Add Vaccination</button>
+      </section>
+
+      <section class="stats six" aria-label="Vaccination summary">
+        <div class="stat c1"><div class="icon">💉</div><b id="sTotal">0</b><span>Total Vaccinations</span></div>
+        <div class="stat c2"><div class="icon">✅</div><b id="sOk">0</b><span>Up to Date</span></div>
+        <div class="stat c3"><div class="icon">⏳</div><b id="sSoon">0</b><span>Due Soon (30 days)</span></div>
+        <div class="stat c4"><div class="icon">⚠️</div><b id="sOver">0</b><span>Overdue</span></div>
+        <div class="stat c1"><div class="icon">👨‍👩‍👧</div><b id="sFamily">0</b><span>Family Vaccinations</span></div>
+        <div class="stat c2"><div class="icon">🐾</div><b id="sPet">0</b><span>Pet Vaccinations</span></div>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Vaccination categories">
+        <button type="button" class="tab" role="tab" id="tabFamily" data-section="family" aria-selected="true">👨‍👩‍👧 Family Vaccinations <span class="num" id="numFamily"></span></button>
+        <button type="button" class="tab" role="tab" id="tabPet" data-section="pet" aria-selected="false">🐾 Pet Vaccinations <span class="num" id="numPet"></span></button>
+      </div>
+
+      <section class="choices" id="choices" aria-label="Choose who to show"></section>
+
+      <h2 class="view-title" id="viewTitle"></h2>
+
+      <section class="panel filters" aria-label="Search and filter vaccinations">
+        <input type="search" id="searchBox" placeholder="Search vaccine, name or provider" aria-label="Search vaccinations">
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option>Up to date</option><option>Due soon</option><option>Overdue</option><option>Completed</option>
+        </select>
+        <label class="date-field">Given from <input type="date" id="dateFrom"></label>
+        <label class="date-field">To <input type="date" id="dateTo"></label>
+        <button type="button" class="btn" id="clearBtn">Clear filters</button>
+      </section>
+      <p class="err range-err" id="rangeErr"></p>
+      <p class="result-count" id="resultCount"></p>
+
+      <section class="records" id="records" aria-label="Vaccinations"></section>
+
+      <div class="panel empty-box" id="noMatch" hidden>
+        <div class="big">🔍</div>
+        <h2>No vaccinations found</h2>
+        <p>Try a different search, status, or date, or clear the filters.</p>
+        <button type="button" class="btn" id="noMatchClear">Clear filters</button>
+      </div>
+
+      <div class="panel empty-box" id="emptyBox" hidden>
+        <div class="big">💉</div>
+        <h2 id="emptyTitle">No vaccinations yet</h2>
+        <p id="emptyText">Add the first vaccination to get started.</p>
+        <button type="button" class="btn btn-primary" id="emptyAddBtn">＋ Add Vaccination</button>
+      </div>
+    </main>
+
+    <footer>FamPaw Care keeps records and reminders only. It does not replace a doctor or a veterinarian.</footer>
+  </div>
+</div>
+
+<!-- ============ ADD / EDIT FORM (one form for family AND pet vaccinations) ============ -->
+<dialog id="formDialog" aria-labelledby="formTitle">
+  <div class="dlg-body">
+    <h2 id="formTitle">Add Vaccination</h2>
+    <form id="vaccForm" novalidate>
+
+      <div class="field">
+        <label for="vCategory">Category</label>
+        <select id="vCategory">
+          <option value="family">Family Vaccination</option>
+          <option value="pet">Pet Vaccination</option>
+        </select>
+        <p class="hint" id="catHint" hidden>The category cannot be changed when editing.</p>
+      </div>
+
+      <div class="field">
+        <label for="vOwner" id="vOwnerLabel">Family Member</label>
+        <select id="vOwner"></select>
+        <p class="err" id="vOwnerErr"></p>
+      </div>
+
+      <div class="field">
+        <label for="vVaccine">Vaccine Name</label>
+        <input type="text" id="vVaccine" placeholder="e.g. Rabies vaccine" maxlength="60" autocomplete="off">
+        <p class="err" id="vVaccineErr"></p>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="vDate">Date Given</label>
+          <input type="date" id="vDate">
+          <p class="err" id="vDateErr"></p>
+        </div>
+        <div class="field">
+          <label for="vNext">Next Dose Due <span class="optional">(optional)</span></label>
+          <input type="date" id="vNext">
+          <p class="err" id="vNextErr"></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="vProvider" id="vProviderLabel">Doctor Name <span class="optional">(optional)</span></label>
+        <input type="text" id="vProvider" maxlength="60" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="vNotes">Notes <span class="optional">(optional)</span></label>
+        <textarea id="vNotes" rows="3" maxlength="500" placeholder="e.g. No reaction after the vaccine."></textarea>
+      </div>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Add Vaccination</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<dialog id="deleteDialog" aria-labelledby="delTitle">
+  <div class="dlg-body">
+    <h2 id="delTitle">Delete this vaccination?</h2>
+    <p class="del-text">Are you sure you want to delete <strong id="delName"></strong>? This cannot be undone.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="btn btn-danger-solid" id="confirmDelete">Yes, delete</button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status"></p>
+<script src="js/app.js"></script>
+<script src="js/vaccinations.js"></script>
+</body>
+</html>

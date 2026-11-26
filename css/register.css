@@ -1,0 +1,103 @@
+/* FamPaw Care – REGISTER page styles (shared colors/font: style.css) */
+/* Page settings (colors and font are in style.css) */
+  :root {
+    --field-radius: 999px;
+    --field-height: 46px;
+    --card-radius: 22px;
+    --card-width: 1000px;
+  }
+
+  body {
+    min-height: 100vh;
+    display: grid; place-items: center;
+    padding: 24px 16px;
+  }
+
+  .card {
+    width: 100%; max-width: var(--card-width);
+    display: grid; grid-template-columns: 1fr 1.1fr;
+    background: var(--white);
+    border: 1px solid color-mix(in srgb, var(--plum) 18%, transparent);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+  }
+
+  /* ---------- LEFT: illustration ---------- */
+  .art {
+    position: relative; overflow: hidden;
+    background: var(--cream);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 36px 28px 0; text-align: center;
+  }
+  .blob { position: absolute; border-radius: 50%; background: var(--sage); }
+  .blob.b1 { width: 260px; height: 260px; left: -90px; top: 42%; }
+  .blob.b2 { width: 170px; height: 170px; right: -50px; top: 12%; background: var(--yellow); }
+  .art h2, .art p, .art-img { position: relative; }
+  .art h2 { font-size: 22px; line-height: 1.3; margin-bottom: 6px; }
+  .art p  { font-size: 14px; }
+  .art-img {
+    margin-top: auto; height: 74%; max-height: 470px;
+    width: auto; max-width: 100%; object-fit: contain; display: block;
+  }
+
+  /* ---------- RIGHT: form ---------- */
+  .form-side {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 36px clamp(24px, 6vw, 52px);
+  }
+  .logo { width: 52px; height: 52px; margin: 0 auto 12px; }
+  .logo img { width: 32px; height: 32px; }
+  h1 { text-align: center; font-size: 26px; margin-bottom: 4px; }
+  .sub { text-align: center; font-size: 14px; margin-bottom: 22px; }
+
+  label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .field { margin-bottom: 14px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%; height: var(--field-height);
+    font: inherit; font-size: 14px; color: var(--plum);
+    padding: 0 18px;
+    border: 1.5px solid var(--border); border-radius: var(--field-radius);
+    background: var(--white);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input::placeholder { color: color-mix(in srgb, var(--plum) 45%, white); }
+  input:hover { border-color: color-mix(in srgb, var(--plum) 45%, var(--border)); }
+  input:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--yellow); }
+  input[aria-invalid="true"] { border-color: var(--error); }
+
+  .pw-wrap input { padding-right: 48px; }
+  .eye { right: 10px; border-radius: 50%; }
+  .eye:hover { background: var(--blush); }
+
+  .hint { font-size: 12px; margin-top: 5px; opacity: .75; }
+  .err { color: var(--error); font-size: 12px; margin-top: 5px; }
+
+  .terms { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; font-weight: 400; margin: 4px 0 4px; cursor: pointer; }
+  .terms input { accent-color: var(--plum); width: 16px; height: 16px; margin-top: 2px; flex: none; }
+  a { color: var(--plum); font-weight: 600; }
+  a:hover { opacity: .8; }
+
+  .btn {
+    width: 100%; height: var(--field-height); margin-top: 16px;
+    font: inherit; font-size: 15px; font-weight: 700;
+    background: var(--plum); color: var(--yellow);
+    border: 1.5px solid var(--plum); border-radius: var(--field-radius);
+    cursor: pointer; transition: opacity .15s, transform .1s;
+  }
+  .btn:hover { opacity: .9; }
+  .btn:active { transform: translateY(1px); }
+  :is(a, button, input):focus-visible { outline: 3px solid var(--plum); outline-offset: 2px; }
+  input:focus-visible { outline: none; }
+
+  .msg.error { color: var(--error); }
+  .signin { text-align: center; font-size: 14px; margin-top: 14px; }
+
+  /* ---------- Tablet & mobile ---------- */
+  @media (max-width: 760px) {
+    .card { grid-template-columns: 1fr; }
+    .art { padding-top: 26px; }
+    .art-img { height: 230px; margin-top: 16px; }
+  }
+  @media (max-width: 420px) { .two { grid-template-columns: 1fr; gap: 0; } .two .field { margin-bottom: 14px; } }
